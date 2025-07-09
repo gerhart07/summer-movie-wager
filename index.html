@@ -439,30 +439,96 @@
                 </div>
                 
                 <div style="background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3>🔄 Live Data Updates</h3>
-                    <p>Connect to TMDB API for automatic box office updates every 6 hours</p>
-                    <div style="margin: 15px 0;">
-                        <label for="tmdb-api-key" style="display: block; margin-bottom: 5px; font-weight: bold;">TMDB API Key (free from themoviedb.org):</label>
-                        <input type="text" id="tmdb-api-key" placeholder="Enter your TMDB API key" style="width: 70%; margin-right: 10px;">
-                        <button onclick="setApiKey()" style="width: 25%;">Set Key</button>
+                    <h3>📊 Quick Box Office Update</h3>
+                    <p>Use these reference links to get current box office numbers, then update below:</p>
+                    
+                    <div style="margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="https://www.boxofficemojo.com/weekend/" target="_blank" style="background: #007bff; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">📈 Box Office Mojo</a>
+                        <a href="https://www.the-numbers.com/weekend-box-office-chart" target="_blank" style="background: #28a745; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">📊 The Numbers</a>
+                        <a href="https://deadline.com/v/box-office/" target="_blank" style="background: #6f42c1; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">📰 Deadline</a>
+                        <button onclick="loadQuickUpdate()" style="background: #ff6b6b; color: white; padding: 10px 15px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer;">🔄 Quick Update Form</button>
                     </div>
-                    <div style="margin: 15px 0;">
-                        <button onclick="enableAutoUpdates()" style="background: #28a745; margin-right: 10px;">Enable Auto-Updates</button>
-                        <button onclick="disableAutoUpdates()" style="background: #dc3545; margin-right: 10px;">Disable Auto-Updates</button>
-                        <button onclick="fetchLiveBoxOfficeData()" style="background: #17a2b8;">Fetch Now</button>
+                    
+                    <div id="quick-update-form" style="display: none; margin-top: 20px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <h4>✨ Super Easy Update</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Just paste the top 10 movies and their earnings. I'll handle the rest!</p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#1 Movie</label>
+                                <input type="text" id="q1-title" placeholder="e.g., Superman" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q1-earnings" placeholder="e.g., $85.2M" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#2 Movie</label>
+                                <input type="text" id="q2-title" placeholder="e.g., Lilo & Stitch" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q2-earnings" placeholder="e.g., $42.1M" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#3 Movie</label>
+                                <input type="text" id="q3-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q3-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#4 Movie</label>
+                                <input type="text" id="q4-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q4-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#5 Movie</label>
+                                <input type="text" id="q5-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q5-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#6 Movie</label>
+                                <input type="text" id="q6-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q6-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#7 Movie</label>
+                                <input type="text" id="q7-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q7-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#8 Movie</label>
+                                <input type="text" id="q8-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q8-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#9 Movie</label>
+                                <input type="text" id="q9-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q9-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#10 Movie</label>
+                                <input type="text" id="q10-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
+                                <input type="text" id="q10-earnings" placeholder="Earnings" style="width: 100%;">
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; text-align: center;">
+                            <button onclick="saveQuickUpdate()" style="background: #28a745; color: white; padding: 12px 30px; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer;">💾 Update All Rankings & Scores</button>
+                        </div>
                     </div>
-                    <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
-                        Get a free API key at <a href="https://www.themoviedb.org/settings/api" target="_blank">themoviedb.org/settings/api</a> (40,000 requests/month free)
-                    </p>
+                </div>
+                
+                <div style="background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h3>🤖 Auto-Update Settings</h3>
+                    <p>Set up automatic TMDB data fetching (gets basic movie info, but not weekly rankings)</p>
+                    <div style="margin: 15px 0;">
+                        <button onclick="fetchLiveBoxOfficeData()" style="background: #17a2b8; margin-right: 10px;">Fetch TMDB Data</button>
+                        <button onclick="enableAutoUpdates()" style="background: #28a745;">Enable 6-Hour Auto-Updates</button>
+                    </div>
                 </div>
                 
                 <div style="background: white; border-radius: 10px; padding: 20px;">
-                    <h3>📝 Manual Updates</h3>
-                    <p>Manually update rankings when live data isn't available</p>
-                    <div id="admin-rankings">
+                    <h3>📝 Advanced Manual Updates</h3>
+                    <p>For fine-tuned control over individual movies</p>
+                    <button onclick="loadAdminPanel()" style="background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-bottom: 15px;">Show Advanced Editor</button>
+                    <div id="admin-rankings" style="display: none;">
                         <!-- Admin form will be populated here -->
                     </div>
-                    <button onclick="saveBoxOfficeUpdate()" style="margin-top: 20px;">Update Rankings & Recalculate Scores</button>
+                    <button onclick="saveBoxOfficeUpdate()" id="advanced-save-btn" style="margin-top: 20px; display: none;">Update Rankings & Recalculate Scores</button>
                 </div>
             </div>
         </div>
@@ -704,16 +770,22 @@
                 localStorage.setItem('wager_predictions', JSON.stringify(predictions));
             }
             
-            // Fetch live data on app load
+            // Fetch live data on app load - try Box Office Mojo first
             console.log('Fetching live box office data...');
-            const success = await fetchLiveBoxOfficeData();
+            let success = await fetchBoxOfficeMojoData();
             
             if (success) {
-                console.log('Live data loaded successfully!');
+                console.log('Box Office Mojo data loaded successfully!');
+            } else {
+                console.log('Box Office Mojo failed, using TMDB fallback');
+                success = await fetchLiveBoxOfficeData();
+            }
+            
+            if (success) {
                 // Calculate scores with real data
                 updateAllUserScores();
             } else {
-                console.log('Using fallback demo data');
+                console.log('All APIs failed, using demo data');
                 // Calculate scores with demo data
                 updateAllUserScores();
             }
@@ -1251,32 +1323,95 @@
             }
         }
         
-        function setApiKey() {
-            const apiKey = document.getElementById('tmdb-api-key').value;
-            if (apiKey) {
-                alert('API key is already configured in the app! Use "Fetch Now" to get live data.');
+        function loadQuickUpdate() {
+            const form = document.getElementById('quick-update-form');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                
+                // Pre-fill with current standings
+                boxOfficeStandings.forEach((movie, index) => {
+                    const titleInput = document.getElementById(`q${index + 1}-title`);
+                    const earningsInput = document.getElementById(`q${index + 1}-earnings`);
+                    if (titleInput && earningsInput) {
+                        titleInput.value = movie.title;
+                        earningsInput.value = movie.earnings;
+                    }
+                });
             } else {
-                alert('API key is already built into the app!');
+                form.style.display = 'none';
+            }
+        }
+
+        function saveQuickUpdate() {
+            const newStandings = [];
+            
+            for (let i = 1; i <= 10; i++) {
+                const titleInput = document.getElementById(`q${i}-title`);
+                const earningsInput = document.getElementById(`q${i}-earnings`);
+                
+                if (titleInput && earningsInput && titleInput.value.trim()) {
+                    newStandings.push({
+                        rank: i,
+                        title: titleInput.value.trim(),
+                        earnings: earningsInput.value.trim() || 'TBD',
+                        released: !earningsInput.value.toLowerCase().includes('release') && 
+                                 !earningsInput.value.toLowerCase().includes('tbd') &&
+                                 earningsInput.value.trim() !== ''
+                    });
+                }
+            }
+            
+            if (newStandings.length === 0) {
+                alert('Please enter at least one movie!');
+                return;
+            }
+            
+            // Add timestamp for tracking
+            const now = new Date();
+            console.log(`Box office updated by admin at ${now.toLocaleString()}`);
+            
+            updateBoxOfficeData(newStandings);
+            
+            // Hide the form
+            document.getElementById('quick-update-form').style.display = 'none';
+            
+            alert(`Box office updated! ${newStandings.length} movies ranked. All player scores have been recalculated.`);
+            
+            // Refresh displays
+            if (currentUser) {
+                updateLeaderboard();
+                updateBoxOfficeStandings();
             }
         }
         
         function loadAdminPanel() {
             const adminRankings = document.getElementById('admin-rankings');
-            adminRankings.innerHTML = '';
+            const saveBtn = document.getElementById('advanced-save-btn');
             
-            boxOfficeStandings.forEach((movie, index) => {
-                const div = document.createElement('div');
-                div.style.cssText = 'margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;';
-                div.innerHTML = `
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">#${index + 1} Movie:</label>
-                    <select id="movie-${index}" style="width: 100%; margin-bottom: 10px;">
-                        ${movies.map(m => `<option value="${m}" ${m === movie.title ? 'selected' : ''}>${m}</option>`).join('')}
-                    </select>
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Earnings:</label>
-                    <input type="text" id="earnings-${index}" value="${movie.earnings}" style="width: 100%;" placeholder="e.g., $150.2M or 'Not yet released'">
-                `;
-                adminRankings.appendChild(div);
-            });
+            if (adminRankings.style.display === 'none') {
+                adminRankings.style.display = 'block';
+                saveBtn.style.display = 'block';
+                
+                adminRankings.innerHTML = '';
+                
+                boxOfficeStandings.forEach((movie, index) => {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;';
+                    div.innerHTML = `
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">#${index + 1} Movie:</label>
+                        <select id="movie-${index}" style="width: 100%; margin-bottom: 10px;">
+                            ${movies.map(m => `<option value="${m}" ${m === movie.title ? 'selected' : ''}>${m}</option>`).join('')}
+                            <option value="${movie.title}" ${!movies.includes(movie.title) ? 'selected' : ''}>${movie.title}</option>
+                        </select>
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Earnings:</label>
+                        <input type="text" id="earnings-${index}" value="${movie.earnings}" style="width: 100%;" placeholder="e.g., $150.2M or 'Not yet released'">
+                    `;
+                    adminRankings.appendChild(div);
+                });
+            } else {
+                adminRankings.style.display = 'none';
+                saveBtn.style.display = 'none';
+            }
         }
         
         function saveBoxOfficeUpdate() {
