@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Movie Wager 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #ff6b6b;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-height: 500px;
+        }
+
+        .login-form, .signup-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .predictions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .prediction-slot {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .prediction-slot.filled {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            border: 2px solid #4facfe;
+            color: white;
+        }
+
+        .prediction-slot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .leaderboard {
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .player-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .player-row:hover {
+            background: #e9ecef;
+        }
+
+        .rank {
+            font-size: 1.2em;
+            font-weight: bold;
+            width: 50px;
+        }
+
+        .rank.first { color: #ffd700; }
+        .rank.second { color: #c0c0c0; }
+        .rank.third { color: #cd7f32; }
+
+        .player-name {
+            flex: 1;
+            font-weight: bold;
+        }
+
+        .points {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .movies-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .movie-card {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .movie-card:hover {
+            border-color: #ff6b6b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie-card.selected {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+        }
+
+        .dark-horses {
+            background: #2d3436;
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .dark-horses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .dark-horse-slot {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .dark-horse-slot.filled {
+            background: rgba(255, 107, 107, 0.3);
+            border: 2px solid #ff6b6b;
+            color: white;
+        }
+
+        .dark-horse-slot:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 10px;
+        }
+
+        .box-office-standings {
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .standings-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .movie-standing {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .movie-standing:last-child {
+            border-bottom: none;
+        }
+
+        .movie-rank {
+            font-weight: bold;
+            width: 30px;
+        }
+
+        .movie-title {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .movie-earnings {
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Summer Movie Wager 2025 🏆</h1>
+            <p>Predict the top 10 highest-grossing movies and compete with friends!</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('login')">Login</button>
+            <button class="tab" onclick="showTab('signup')">Sign Up</button>
+            <button class="tab hidden" onclick="showTab('predictions')">My Predictions</button>
+            <button class="tab hidden" onclick="showTab('leaderboard')">Leaderboard</button>
+            <button class="tab hidden" onclick="showTab('standings')">Box Office</button>
+            <button class="tab hidden" onclick="showTab('admin')" id="admin-tab-btn" style="display: none;">Admin</button>
+        </div>
+
+        <div class="content">
+            <!-- Login Tab -->
+            <div id="login-tab">
+                <div class="login-form">
+                    <h2 style="text-align: center; margin-bottom: 30px;">Welcome Back!</h2>
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" placeholder="Enter your username">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password">
+                    </div>
+                    <button onclick="login()">Login</button>
+                </div>
+            </div>
+
+            <!-- Sign Up Tab -->
+            <div id="signup-tab" class="hidden">
+                <div class="signup-form">
+                    <h2 style="text-align: center; margin-bottom: 30px;">Join the Wager!</h2>
+                    <div class="form-group">
+                        <label for="signup-username">Username</label>
+                        <input type="text" id="signup-username" placeholder="Choose a username">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password">
+                    </div>
+                    <button onclick="signup()">Sign Up</button>
+                </div>
+            </div>
+
+            <!-- Predictions Tab -->
+            <div id="predictions-tab" class="hidden">
+                <div class="welcome-message">
+                    <h2>Welcome, <span id="current-user"></span>! 🎯</h2>
+                    <p>Drag movies to rank your top 10 predictions, then select 3 dark horses!</p>
+                </div>
+
+                <h3>📊 Rank Your Top 10 Movies</h3>
+                <div class="predictions-grid" id="predictions-grid">
+                    <!-- Prediction slots will be generated here -->
+                </div>
+
+                <h3>🎬 Available Movies</h3>
+                <div class="movies-list" id="movies-list">
+                    <!-- Movie cards will be generated here -->
+                </div>
+
+                <div class="dark-horses">
+                    <h3>🎭 Dark Horses (Pick 3)</h3>
+                    <p>Drag 3 movies here that you think will surprise everyone by making the top 10!</p>
+                    <div class="dark-horses-grid" id="dark-horses-grid">
+                        <!-- Dark horse slots will be generated here -->
+                    </div>
+                </div>
+
+                <button onclick="savePredictions()" style="margin-top: 20px;">Save My Predictions</button>
+            </div>
+
+            <!-- Leaderboard Tab -->
+            <div id="leaderboard-tab" class="hidden">
+                <div class="leaderboard">
+                    <div class="leaderboard-header">
+                        <h2>🏆 Current Rankings</h2>
+                    </div>
+                    <div id="leaderboard-content">
+                        <!-- Leaderboard will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box Office Standings Tab -->
+            <div id="standings-tab" class="hidden">
+                <div class="box-office-standings">
+                    <div class="standings-header">
+                        <h2>📈 Current Box Office Top 10</h2>
+                        <p style="margin-top: 10px; opacity: 0.9;">Last updated: <span id="last-updated"></span></p>
+                    </div>
+                    <div id="standings-content">
+                        <!-- Box office standings will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tab -->
+            <div id="admin-tab" class="hidden">
+                <div style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h2>🔧 Admin Panel</h2>
+                    <p>Update box office standings manually or enable automatic updates</p>
+                </div>
+                
+                <div style="background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h3>🔄 Live Data Updates</h3>
+                    <p>Connect to TMDB API for automatic box office updates every 6 hours</p>
+                    <div style="margin: 15px 0;">
+                        <label for="tmdb-api-key" style="display: block; margin-bottom: 5px; font-weight: bold;">TMDB API Key (free from themoviedb.org):</label>
+                        <input type="text" id="tmdb-api-key" placeholder="Enter your TMDB API key" style="width: 70%; margin-right: 10px;">
+                        <button onclick="setApiKey()" style="width: 25%;">Set Key</button>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <button onclick="enableAutoUpdates()" style="background: #28a745; margin-right: 10px;">Enable Auto-Updates</button>
+                        <button onclick="disableAutoUpdates()" style="background: #dc3545; margin-right: 10px;">Disable Auto-Updates</button>
+                        <button onclick="fetchLiveBoxOfficeData()" style="background: #17a2b8;">Fetch Now</button>
+                    </div>
+                    <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                        Get a free API key at <a href="https://www.themoviedb.org/settings/api" target="_blank">themoviedb.org/settings/api</a> (40,000 requests/month free)
+                    </p>
+                </div>
+                
+                <div style="background: white; border-radius: 10px; padding: 20px;">
+                    <h3>📝 Manual Updates</h3>
+                    <p>Manually update rankings when live data isn't available</p>
+                    <div id="admin-rankings">
+                        <!-- Admin form will be populated here -->
+                    </div>
+                    <button onclick="saveBoxOfficeUpdate()" style="margin-top: 20px;">Update Rankings & Recalculate Scores</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Live data integration
+        const TMDB_API_KEY = 'YOUR_TMDB_API_KEY'; // Users will need to get this
+        let autoUpdateEnabled = false;
+        
+        // Movie ID mapping for TMDB API
+        const movieTMDBIds = {
+            'Lilo & Stitch': 1217,
+            'Lilo and Stitch': 1217,
+            'Thunderbolts': 567604,
+            'Mission: Impossible - The Final Reckoning': 575264,
+            'Final Destination: Bloodlines': 1034062,
+            'Karate Kid: Legends': 1226578,
+            'Ballerina: From the World of John Wick': 603692,
+            'How to Train Your Dragon': 166424,
+            'Elio': 1160018,
+            'F1': 1073481,
+            'Jurassic World Rebirth': 1226578,
+            'Superman': 1726,
+            'The Fantastic Four: First Steps': 617126,
+            'Smurfs': 49026,
+            '28 Years Later': 1034541,
+            'Megan 2.0': 1226578,
+            'The Naked Gun': 8012,
+            'Freakier Friday': 1226578
+        };
+
+        async function fetchLiveBoxOfficeData() {
+            console.log('Fetching live box office data...');
+            
+            if (!TMDB_API_KEY || TMDB_API_KEY === 'YOUR_TMDB_API_KEY') {
+                console.log('TMDB API key not configured. Using demo data.');
+                return false;
+            }
+            
+            try {
+                const newStandings = [];
+                let currentRank = 1;
+                
+                // Fetch current data for each movie
+                for (const [movieTitle, tmdbId] of Object.entries(movieTMDBIds)) {
+                    try {
+                        const response = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${TMDB_API_KEY}`);
+                        const movieData = await response.json();
+                        
+                        if (movieData.revenue && movieData.revenue > 0) {
+                            newStandings.push({
+                                rank: currentRank++,
+                                title: movieTitle,
+                                earnings: formatRevenue(movieData.revenue),
+                                released: true,
+                                revenue: movieData.revenue
+                            });
+                        }
+                    } catch (error) {
+                        console.log(`Error fetching data for ${movieTitle}:`, error);
+                    }
+                }
+                
+                // Sort by revenue and assign ranks
+                newStandings.sort((a, b) => b.revenue - a.revenue);
+                newStandings.forEach((movie, index) => {
+                    movie.rank = index + 1;
+                });
+                
+                // Add unreleased movies to fill out top 10
+                const unreleasedMovies = movies.filter(movie => 
+                    !newStandings.some(standing => 
+                        standing.title.toLowerCase().includes(movie.toLowerCase())
+                    )
+                );
+                
+                while (newStandings.length < 10 && unreleasedMovies.length > 0) {
+                    const movie = unreleasedMovies.shift();
+                    newStandings.push({
+                        rank: newStandings.length + 1,
+                        title: movie,
+                        earnings: 'Not yet released',
+                        released: false,
+                        revenue: 0
+                    });
+                }
+                
+                // Update the app with new data
+                updateBoxOfficeData(newStandings.slice(0, 10));
+                return true;
+                
+            } catch (error) {
+                console.error('Error fetching live data:', error);
+                return false;
+            }
+        }
+        
+        function formatRevenue(revenue) {
+            if (revenue >= 1000000000) {
+                return `$${(revenue / 1000000000).toFixed(1)}B`;
+            } else if (revenue >= 1000000) {
+                return `$${(revenue / 1000000).toFixed(1)}M`;
+            } else {
+                return `$${revenue.toLocaleString()}`;
+            }
+        }
+        
+        async function enableAutoUpdates() {
+            autoUpdateEnabled = true;
+            
+            // Try to fetch live data immediately
+            const success = await fetchLiveBoxOfficeData();
+            
+            if (success) {
+                // Set up automatic updates every 6 hours
+                setInterval(fetchLiveBoxOfficeData, 6 * 60 * 60 * 1000);
+                alert('Live data updates enabled! Box office numbers will refresh every 6 hours.');
+            } else {
+                alert('Could not enable live updates. Please check your TMDB API key in the console.');
+            }
+        }
+        
+        function disableAutoUpdates() {
+            autoUpdateEnabled = false;
+            alert('Auto-updates disabled. You can still manually update via the Admin panel.');
+        }
+        
+        // Current box office standings - updates daily
+        let boxOfficeStandings = JSON.parse(localStorage.getItem('box_office_standings') || JSON.stringify([
+            { rank: 1, title: 'Lilo & Stitch', earnings: '$335.8M', released: true },
+            { rank: 2, title: 'Thunderbolts', earnings: '$185.0M', released: true },
+            { rank: 3, title: 'Mission: Impossible - The Final Reckoning', earnings: '$149.2M', released: true },
+            { rank: 4, title: 'Final Destination: Bloodlines', earnings: '$125.0M', released: true },
+            { rank: 5, title: 'Karate Kid: Legends', earnings: '$35.0M', released: true },
+            { rank: 6, title: 'Ballerina: From the World of John Wick', earnings: '$25.0M', released: true },
+            { rank: 7, title: 'How to Train Your Dragon', earnings: 'Not yet released', released: false },
+            { rank: 8, title: 'Elio', earnings: 'Not yet released', released: false },
+            { rank: 9, title: 'F1', earnings: 'Not yet released', released: false },
+            { rank: 10, title: 'Jurassic World Rebirth', earnings: 'Not yet released', released: false }
+        ]));
+
+        // App state
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('wager_users') || '{}');
+        let predictions = JSON.parse(localStorage.getItem('wager_predictions') || '{}');
+        let selectedMovies = [];
+        let darkHorses = [];
+
+        // Available movies
+        const movies = [
+            'Jurassic World Rebirth',
+            'Lilo and Stitch',
+            'The Fantastic Four: First Steps',
+            'How to Train Your Dragon',
+            'Superman',
+            'Mission: Impossible - The Final Reckoning',
+            'Elio',
+            'Thunderbolts',
+            'F1',
+            'Final Destination: Bloodlines',
+            '28 Years Later',
+            'Karate Kid: Legends',
+            'The Bad Guys 2',
+            'Ballerina: From the World of John Wick',
+            'Freakier Friday',
+            'Megan 2.0',
+            'The Naked Gun',
+            'Smurfs'
+        ];
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('[id$="-tab"]').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            event.target.classList.add('active');
+
+            // Update content based on tab
+            if (tabName === 'predictions' && currentUser) {
+                loadUserPredictions();
+            } else if (tabName === 'leaderboard') {
+                updateLeaderboard();
+            } else if (tabName === 'standings') {
+                updateBoxOfficeStandings();
+            } else if (tabName === 'admin') {
+                loadAdminPanel();
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            console.log('Login attempt:', username, password);
+            console.log('Available users:', Object.keys(users));
+            
+            if (!username || !password) {
+                alert('Please enter both username and password');
+                return;
+            }
+            
+            if (users[username] && users[username].password === password) {
+                currentUser = username;
+                document.getElementById('current-user').textContent = username;
+                showUserTabs();
+                showTab('predictions');
+                initializePredictions();
+                console.log('Login successful for:', username);
+            } else {
+                console.log('Login failed. User exists:', !!users[username]);
+                if (users[username]) {
+                    console.log('Password match:', users[username].password === password);
+                }
+                alert('Invalid username or password. Try: Phil, Garrett, or Ryan with password: password');
+            }
+        }
+
+        function signup() {
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            if (!username || !email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (users[username]) {
+                alert('Username already exists');
+                return;
+            }
+            
+            users[username] = { email, password, points: 0 };
+            localStorage.setItem('wager_users', JSON.stringify(users));
+            
+            currentUser = username;
+            document.getElementById('current-user').textContent = username;
+            showUserTabs();
+            showTab('predictions');
+            initializePredictions();
+        }
+
+        function showUserTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('hidden');
+            });
+            
+            // Show admin tab only for admin users
+            if (currentUser === 'admin' || currentUser === 'Phil') {
+                document.getElementById('admin-tab-btn').style.display = 'block';
+            }
+        }
+
+        function initializePredictions() {
+            createPredictionSlots();
+            createDarkHorseSlots();
+            createMovieCards();
+        }
+
+        function createPredictionSlots() {
+            const grid = document.getElementById('predictions-grid');
+            grid.innerHTML = '';
+            
+            for (let i = 1; i <= 10; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'prediction-slot';
+                slot.dataset.rank = i;
+                slot.dataset.type = 'top10';
+                slot.innerHTML = `
+                    <h3>#${i}</h3>
+                    <p>Drop a movie here</p>
+                `;
+                slot.ondrop = drop;
+                slot.ondragover = allowDrop;
+                slot.onclick = () => clearSlot(slot);
+                grid.appendChild(slot);
+            }
+        }
+
+        function createDarkHorseSlots() {
+            const grid = document.getElementById('dark-horses-grid');
+            grid.innerHTML = '';
+            
+            for (let i = 1; i <= 3; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'dark-horse-slot';
+                slot.dataset.rank = i;
+                slot.dataset.type = 'darkhorse';
+                slot.innerHTML = `
+                    <h4>Dark Horse ${i}</h4>
+                    <p>Drop a movie here</p>
+                `;
+                slot.ondrop = drop;
+                slot.ondragover = allowDrop;
+                slot.onclick = () => clearSlot(slot);
+                grid.appendChild(slot);
+            }
+        }
+
+        function createMovieCards() {
+            const moviesList = document.getElementById('movies-list');
+            moviesList.innerHTML = '';
+            
+            movies.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.draggable = true;
+                card.textContent = movie;
+                card.ondragstart = drag;
+                moviesList.appendChild(card);
+            });
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.textContent);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const movie = ev.dataTransfer.getData("text");
+            const slot = ev.currentTarget;
+            const rank = parseInt(slot.dataset.rank);
+            const type = slot.dataset.type;
+            
+            // Remove movie from its previous location if it exists
+            removeMovieFromAllSlots(movie);
+            
+            if (type === 'top10') {
+                slot.innerHTML = `
+                    <h3>#${rank}</h3>
+                    <p style="font-weight: bold; margin-top: 10px;">${movie}</p>
+                    <small style="opacity: 0.7; margin-top: 5px;">Click to remove</small>
+                `;
+                slot.classList.add('filled');
+                selectedMovies[rank - 1] = movie;
+                
+                // Remove from dark horses if it was there
+                darkHorses = darkHorses.filter(m => m !== movie);
+            } else if (type === 'darkhorse') {
+                slot.innerHTML = `
+                    <h4>Dark Horse ${rank}</h4>
+                    <p style="font-weight: bold; margin-top: 10px;">${movie}</p>
+                    <small style="opacity: 0.7; margin-top: 5px;">Click to remove</small>
+                `;
+                slot.classList.add('filled');
+                darkHorses[rank - 1] = movie;
+                
+                // Remove from top 10 if it was there
+                selectedMovies = selectedMovies.map(m => m === movie ? null : m);
+            }
+            
+            // Clean up arrays
+            darkHorses = darkHorses.filter(Boolean);
+            updateMovieCardStates();
+        }
+
+        function clearSlot(slot) {
+            if (!slot.classList.contains('filled')) return;
+            
+            const type = slot.dataset.type;
+            const rank = parseInt(slot.dataset.rank);
+            
+            if (type === 'top10') {
+                selectedMovies[rank - 1] = null;
+                slot.innerHTML = `
+                    <h3>#${rank}</h3>
+                    <p>Drop a movie here</p>
+                `;
+                slot.classList.remove('filled');
+            } else if (type === 'darkhorse') {
+                darkHorses[rank - 1] = null;
+                slot.innerHTML = `
+                    <h4>Dark Horse ${rank}</h4>
+                    <p>Drop a movie here</p>
+                `;
+                slot.classList.remove('filled');
+            }
+            
+            // Clean up arrays
+            darkHorses = darkHorses.filter(Boolean);
+            updateMovieCardStates();
+        }
+
+        function removeMovieFromAllSlots(movie) {
+            // Remove from top 10
+            selectedMovies = selectedMovies.map(m => m === movie ? null : m);
+            
+            // Remove from dark horses
+            darkHorses = darkHorses.filter(m => m !== movie);
+            
+            // Update UI
+            document.querySelectorAll('.prediction-slot.filled').forEach(slot => {
+                if (slot.textContent.includes(movie)) {
+                    const rank = parseInt(slot.dataset.rank);
+                    slot.innerHTML = `
+                        <h3>#${rank}</h3>
+                        <p>Drop a movie here</p>
+                    `;
+                    slot.classList.remove('filled');
+                }
+            });
+            
+            document.querySelectorAll('.dark-horse-slot.filled').forEach(slot => {
+                if (slot.textContent.includes(movie)) {
+                    const rank = parseInt(slot.dataset.rank);
+                    slot.innerHTML = `
+                        <h4>Dark Horse ${rank}</h4>
+                        <p>Drop a movie here</p>
+                    `;
+                    slot.classList.remove('filled');
+                }
+            });
+        }
+
+        function updateMovieCardStates() {
+            const usedMovies = [...selectedMovies.filter(Boolean), ...darkHorses];
+            
+            document.querySelectorAll('.movie-card').forEach(card => {
+                if (usedMovies.includes(card.textContent)) {
+                    card.style.opacity = '0.5';
+                    card.style.background = '#e9ecef';
+                } else {
+                    card.style.opacity = '1';
+                    card.style.background = '#f8f9fa';
+                }
+            });
+        }
+
+        function calculatePoints(userPredictions) {
+            if (!userPredictions) return 0;
+            
+            let totalPoints = 0;
+            const top10 = userPredictions.top10 || [];
+            const darkHorses = userPredictions.darkHorses || [];
+            
+            // Calculate points for top 10 predictions
+            top10.forEach((predictedMovie, index) => {
+                if (!predictedMovie) return;
+                
+                const predictedRank = index + 1; // 1-10
+                const actualRank = findActualRank(predictedMovie);
+                
+                if (actualRank === -1) return; // Movie not in current top 10
+                
+                const difference = Math.abs(predictedRank - actualRank);
+                
+                if (difference === 0) {
+                    // Exact position match
+                    totalPoints += 15;
+                } else if (difference === 1) {
+                    // 1 spot off
+                    totalPoints += 10;
+                } else if (difference === 2 || difference === 3) {
+                    // 2-3 spots off
+                    totalPoints += 5;
+                }
+                // More than 3 spots off = 0 points
+            });
+            
+            // Calculate points for dark horses
+            darkHorses.forEach(darkHorse => {
+                const actualRank = findActualRank(darkHorse);
+                if (actualRank !== -1 && actualRank <= 10) {
+                    // Dark horse made it to top 10
+                    totalPoints += 5;
+                }
+            });
+            
+            return totalPoints;
+        }
+        
+        function findActualRank(movieTitle) {
+            // Find the current rank of a movie in box office standings
+            const standing = boxOfficeStandings.find(s => 
+                s.title.toLowerCase().includes(movieTitle.toLowerCase()) || 
+                movieTitle.toLowerCase().includes(s.title.toLowerCase())
+            );
+            return standing ? standing.rank : -1;
+        }
+        
+        function updateAllUserScores() {
+            // Recalculate scores for all users based on current box office standings
+            Object.keys(predictions).forEach(username => {
+                const userPreds = predictions[username];
+                userPreds.points = calculatePoints(userPreds);
+            });
+            
+            // Update users object with new points
+            Object.keys(predictions).forEach(username => {
+                if (users[username]) {
+                    users[username].points = predictions[username].points;
+                }
+            });
+            
+            localStorage.setItem('wager_predictions', JSON.stringify(predictions));
+            localStorage.setItem('wager_users', JSON.stringify(users));
+        }
+        
+        function updateBoxOfficeData(newStandings) {
+            // This function would be called when new box office data comes in
+            boxOfficeStandings = newStandings;
+            localStorage.setItem('box_office_standings', JSON.stringify(boxOfficeStandings));
+            
+            // Recalculate all scores
+            updateAllUserScores();
+            
+            // Refresh displays if user is logged in
+            if (currentUser) {
+                updateLeaderboard();
+                updateBoxOfficeStandings();
+            }
+            
+            console.log('Box office data updated! All scores recalculated.');
+        }
+
+        function savePredictions() {
+            const filledTop10 = selectedMovies.filter(Boolean);
+            const filledDarkHorses = darkHorses.filter(Boolean);
+            
+            if (filledTop10.length !== 10) {
+                alert(`Please select all 10 movies for your top 10! You have ${filledTop10.length}/10 selected.`);
+                return;
+            }
+            
+            if (filledDarkHorses.length !== 3) {
+                alert(`Please select exactly 3 dark horses! You have ${filledDarkHorses.length}/3 selected.`);
+                return;
+            }
+            
+            predictions[currentUser] = {
+                top10: selectedMovies,
+                darkHorses: darkHorses,
+                points: calculatePoints({ top10: selectedMovies, darkHorses: darkHorses })
+            };
+            
+            // Update user points
+            if (users[currentUser]) {
+                users[currentUser].points = predictions[currentUser].points;
+            }
+            
+            localStorage.setItem('wager_predictions', JSON.stringify(predictions));
+            localStorage.setItem('wager_users', JSON.stringify(users));
+            alert('Predictions saved successfully! Your current score: ' + predictions[currentUser].points + ' points');
+        }
+
+        function loadUserPredictions() {
+            if (predictions[currentUser]) {
+                const userPreds = predictions[currentUser];
+                selectedMovies = userPreds.top10 || [];
+                darkHorses = userPreds.darkHorses || [];
+                
+                // Update UI with saved predictions
+                createPredictionSlots();
+                createDarkHorseSlots();
+                
+                // Fill top 10 slots
+                selectedMovies.forEach((movie, index) => {
+                    if (movie) {
+                        const slot = document.querySelector(`[data-rank="${index + 1}"][data-type="top10"]`);
+                        slot.innerHTML = `
+                            <h3>#${index + 1}</h3>
+                            <p style="font-weight: bold; margin-top: 10px;">${movie}</p>
+                            <small style="opacity: 0.7; margin-top: 5px;">Click to remove</small>
+                        `;
+                        slot.classList.add('filled');
+                    }
+                });
+                
+                // Fill dark horse slots
+                darkHorses.forEach((movie, index) => {
+                    if (movie && index < 3) {
+                        const slot = document.querySelector(`[data-rank="${index + 1}"][data-type="darkhorse"]`);
+                        slot.innerHTML = `
+                            <h4>Dark Horse ${index + 1}</h4>
+                            <p style="font-weight: bold; margin-top: 10px;">${movie}</p>
+                            <small style="opacity: 0.7; margin-top: 5px;">Click to remove</small>
+                        `;
+                        slot.classList.add('filled');
+                    }
+                });
+                
+                createMovieCards();
+                updateMovieCardStates();
+            } else {
+                // Reset everything for new user
+                selectedMovies = [];
+                darkHorses = [];
+                createPredictionSlots();
+                createDarkHorseSlots();
+                createMovieCards();
+            }
+        }
+
+        function updateLeaderboard() {
+            const content = document.getElementById('leaderboard-content');
+            const sortedUsers = Object.entries(predictions)
+                .map(([username, data]) => ({ username, points: data.points || 0 }))
+                .sort((a, b) => b.points - a.points);
+            
+            content.innerHTML = sortedUsers.map((user, index) => {
+                const rankClass = index === 0 ? 'first' : index === 1 ? 'second' : index === 2 ? 'third' : '';
+                const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+                
+                return `
+                    <div class="player-row">
+                        <div class="rank ${rankClass}">${rankEmoji} ${index + 1}</div>
+                        <div class="player-name">${user.username}</div>
+                        <div class="points">${user.points} pts</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateBoxOfficeStandings() {
+            const content = document.getElementById('standings-content');
+            content.innerHTML = boxOfficeStandings.map(movie => `
+                <div class="movie-standing">
+                    <div class="movie-rank">#${movie.rank}</div>
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-earnings">${movie.earnings}</div>
+                </div>
+            `).join('');
+            
+            // Update last updated time
+            const lastUpdated = document.getElementById('last-updated');
+            if (lastUpdated) {
+                lastUpdated.textContent = new Date().toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            }
+        }
+        
+        function setApiKey() {
+            const apiKey = document.getElementById('tmdb-api-key').value;
+            if (apiKey) {
+                // In a real app, you'd store this securely
+                window.TMDB_API_KEY = apiKey;
+                alert('API key saved! You can now enable auto-updates.');
+            } else {
+                alert('Please enter a valid API key.');
+            }
+        }
+        
+        function loadAdminPanel() {
+            const adminRankings = document.getElementById('admin-rankings');
+            adminRankings.innerHTML = '';
+            
+            boxOfficeStandings.forEach((movie, index) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;';
+                div.innerHTML = `
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">#${index + 1} Movie:</label>
+                    <select id="movie-${index}" style="width: 100%; margin-bottom: 10px;">
+                        ${movies.map(m => `<option value="${m}" ${m === movie.title ? 'selected' : ''}>${m}</option>`).join('')}
+                    </select>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Earnings:</label>
+                    <input type="text" id="earnings-${index}" value="${movie.earnings}" style="width: 100%;" placeholder="e.g., $150.2M or 'Not yet released'">
+                `;
+                adminRankings.appendChild(div);
+            });
+        }
+        
+        function saveBoxOfficeUpdate() {
+            const newStandings = [];
+            
+            for (let i = 0; i < 10; i++) {
+                const movieSelect = document.getElementById(`movie-${i}`);
+                const earningsInput = document.getElementById(`earnings-${i}`);
+                
+                if (movieSelect && earningsInput) {
+                    newStandings.push({
+                        rank: i + 1,
+                        title: movieSelect.value,
+                        earnings: earningsInput.value,
+                        released: !earningsInput.value.includes('Not yet released')
+                    });
+                }
+            }
+            
+            updateBoxOfficeData(newStandings);
+            alert('Box office data updated! All player scores have been recalculated.');
+            
+            // Refresh the leaderboard to show new scores
+            updateLeaderboard();
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('App initializing...');
+            
+            // Load existing data
+            users = JSON.parse(localStorage.getItem('wager_users') || '{}');
+            predictions = JSON.parse(localStorage.getItem('wager_predictions') || '{}');
+            
+            console.log('Loaded users:', Object.keys(users));
+            console.log('Loaded predictions:', Object.keys(predictions));
+            
+            // Add demo data if none exists
+            if (Object.keys(users).length === 0) {
+                console.log('Creating demo data...');
+                users = {
+                    'Phil': { email: 'phil@example.com', password: 'password', points: 0 },
+                    'Garrett': { email: 'garrett@example.com', password: 'password', points: 0 },
+                    'Ryan': { email: 'ryan@example.com', password: 'password', points: 0 }
+                };
+                localStorage.setItem('wager_users', JSON.stringify(users));
+                
+                predictions = {
+                    'Phil': { 
+                        top10: ['Lilo and Stitch', 'How to Train Your Dragon', 'Jurassic World Rebirth', 'Superman', 'The Fantastic Four', 'Mission: Impossible - The Final Reckoning', 'Elio', 'Thunderbolts', 'Ballerina: From the World of John Wick', 'F1'],
+                        darkHorses: ['Karate Kid: Legends', 'Megan 2.0', 'Freakier Friday'],
+                        points: 0
+                    },
+                    'Garrett': {
+                        top10: ['Jurassic World Rebirth', 'Lilo and Stitch', 'Superman', 'The Fantastic Four: First Steps', 'Mission: Impossible - The Final Reckoning', 'F1', 'How to Train Your Dragon', 'Thunderbolts', 'Elio', 'Karate Kid: Legends'],
+                        darkHorses: ['28 Years Later', 'Ballerina: From the World of John Wick', 'Freakier Friday'],
+                        points: 0
+                    },
+                    'Ryan': {
+                        top10: ['Jurassic World Rebirth', 'Lilo and Stitch', 'The Fantastic Four: First Steps', 'How to Train Your Dragon', 'Superman', 'Mission: Impossible - The Final Reckoning', 'Elio', 'Thunderbolts', 'F1', 'Final Destination: Bloodlines'],
+                        darkHorses: ['28 Years Later', 'Karate Kid: Legends', 'The Bad Guys 2'],
+                        points: 0
+                    }
+                };
+                localStorage.setItem('wager_predictions', JSON.stringify(predictions));
+                
+                // Calculate initial scores based on current box office standings
+                updateAllUserScores();
+                console.log('Demo data created and scores calculated');
+            }
+            
+            console.log('App initialization complete');
+        });
+    </script>
+</body>
+</html>
