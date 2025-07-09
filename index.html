@@ -439,75 +439,45 @@
                 </div>
                 
                 <div style="background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3>📊 Quick Box Office Update</h3>
-                    <p>Use these reference links to get current box office numbers, then update below:</p>
+                    <h3>📊 Super Quick Box Office Update</h3>
+                    <p>Just paste the weekend box office data and I'll handle the rest!</p>
                     
                     <div style="margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap;">
                         <a href="https://www.boxofficemojo.com/weekend/" target="_blank" style="background: #007bff; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">📈 Box Office Mojo</a>
                         <a href="https://www.the-numbers.com/weekend-box-office-chart" target="_blank" style="background: #28a745; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">📊 The Numbers</a>
-                        <a href="https://deadline.com/v/box-office/" target="_blank" style="background: #6f42c1; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">📰 Deadline</a>
-                        <button onclick="loadQuickUpdate()" style="background: #ff6b6b; color: white; padding: 10px 15px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer;">🔄 Quick Update Form</button>
+                        <button onclick="loadSmartUpdate()" style="background: #ff6b6b; color: white; padding: 10px 15px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer;">⚡ Smart Update</button>
                     </div>
                     
-                    <div id="quick-update-form" style="display: none; margin-top: 20px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
-                        <h4>✨ Super Easy Update</h4>
-                        <p style="color: #666; margin-bottom: 15px;">Just paste the top 10 movies and their earnings. I'll handle the rest!</p>
+                    <div id="smart-update-form" style="display: none; margin-top: 20px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <h4>⚡ Copy & Paste Method</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Copy the weekend box office list from any site and paste it here. I'll automatically extract the movies and rankings!</p>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#1 Movie</label>
-                                <input type="text" id="q1-title" placeholder="e.g., Superman" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q1-earnings" placeholder="e.g., $85.2M" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#2 Movie</label>
-                                <input type="text" id="q2-title" placeholder="e.g., Lilo & Stitch" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q2-earnings" placeholder="e.g., $42.1M" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#3 Movie</label>
-                                <input type="text" id="q3-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q3-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#4 Movie</label>
-                                <input type="text" id="q4-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q4-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#5 Movie</label>
-                                <input type="text" id="q5-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q5-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#6 Movie</label>
-                                <input type="text" id="q6-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q6-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#7 Movie</label>
-                                <input type="text" id="q7-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q7-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#8 Movie</label>
-                                <input type="text" id="q8-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q8-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#9 Movie</label>
-                                <input type="text" id="q9-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q9-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
-                            <div>
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">#10 Movie</label>
-                                <input type="text" id="q10-title" placeholder="Movie title" style="width: 100%; margin-bottom: 5px;">
-                                <input type="text" id="q10-earnings" placeholder="Earnings" style="width: 100%;">
-                            </div>
+                        <label style="font-weight: bold; display: block; margin-bottom: 10px;">Paste Box Office Data Here:</label>
+                        <textarea id="box-office-paste" placeholder="Example:
+1. Superman - $45.2M
+2. Lilo & Stitch - $32.1M  
+3. How to Train Your Dragon - $28.5M
+...or any format from box office sites" style="width: 100%; height: 150px; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-family: monospace;"></textarea>
+                        
+                        <div style="margin: 15px 0;">
+                            <button onclick="parseBoxOfficeData()" style="background: #17a2b8; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-right: 10px;">🔄 Parse Data</button>
+                            <button onclick="showQuickEdit()" style="background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px;">✏️ Manual Edit</button>
                         </div>
                         
+                        <div id="parsed-preview" style="display: none; margin-top: 20px; padding: 15px; background: white; border-radius: 8px; border: 2px solid #28a745;">
+                            <h5 style="color: #28a745; margin-bottom: 10px;">✅ Parsed Successfully!</h5>
+                            <div id="parsed-content"></div>
+                            <button onclick="applyParsedData()" style="background: #28a745; color: white; padding: 12px 30px; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px;">💾 Apply These Rankings</button>
+                        </div>
+                    </div>
+                    
+                    <div id="quick-edit-form" style="display: none; margin-top: 20px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <h4>✏️ Quick Edit (Only Change What's Different)</h4>
+                        <div id="quick-edit-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                            <!-- Quick edit fields will be generated here -->
+                        </div>
                         <div style="margin-top: 20px; text-align: center;">
-                            <button onclick="saveQuickUpdate()" style="background: #28a745; color: white; padding: 12px 30px; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer;">💾 Update All Rankings & Scores</button>
+                            <button onclick="saveQuickEdit()" style="background: #28a745; color: white; padding: 12px 30px; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer;">💾 Update Rankings</button>
                         </div>
                     </div>
                 </div>
@@ -1323,40 +1293,131 @@
             }
         }
         
-        function loadQuickUpdate() {
-            const form = document.getElementById('quick-update-form');
-            if (form.style.display === 'none') {
-                form.style.display = 'block';
+        let parsedBoxOfficeData = [];
+
+        function loadSmartUpdate() {
+            const form = document.getElementById('smart-update-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            
+            // Hide other forms
+            document.getElementById('quick-edit-form').style.display = 'none';
+            document.getElementById('parsed-preview').style.display = 'none';
+        }
+
+        function parseBoxOfficeData() {
+            const pasteArea = document.getElementById('box-office-paste');
+            const text = pasteArea.value.trim();
+            
+            if (!text) {
+                alert('Please paste some box office data first!');
+                return;
+            }
+            
+            const lines = text.split('\n').filter(line => line.trim());
+            parsedBoxOfficeData = [];
+            
+            lines.forEach((line, index) => {
+                if (index >= 10) return; // Only top 10
                 
-                // Pre-fill with current standings
-                boxOfficeStandings.forEach((movie, index) => {
-                    const titleInput = document.getElementById(`q${index + 1}-title`);
-                    const earningsInput = document.getElementById(`q${index + 1}-earnings`);
-                    if (titleInput && earningsInput) {
-                        titleInput.value = movie.title;
-                        earningsInput.value = movie.earnings;
-                    }
-                });
+                // Try to extract movie title and earnings from various formats
+                let rank = index + 1;
+                let title = '';
+                let earnings = '';
+                
+                // Remove common prefixes (1., #1, 1), etc.)
+                let cleanLine = line.replace(/^\s*[\d#]+[\.\)\-\s]*/, '').trim();
+                
+                // Look for dollar amounts
+                const dollarMatch = cleanLine.match(/\$[\d,\.]+[MBK]?/i);
+                if (dollarMatch) {
+                    earnings = dollarMatch[0];
+                    title = cleanLine.replace(dollarMatch[0], '').replace(/\s*[-–—]\s*$/, '').trim();
+                } else {
+                    // If no dollar amount, treat whole thing as title
+                    title = cleanLine;
+                    earnings = 'TBD';
+                }
+                
+                // Clean up title (remove extra characters)
+                title = title.replace(/[–—-]\s*$/, '').trim();
+                
+                if (title) {
+                    parsedBoxOfficeData.push({
+                        rank: rank,
+                        title: title,
+                        earnings: earnings,
+                        released: earnings !== 'TBD' && earnings !== ''
+                    });
+                }
+            });
+            
+            // Show preview
+            const preview = document.getElementById('parsed-preview');
+            const content = document.getElementById('parsed-content');
+            
+            if (parsedBoxOfficeData.length > 0) {
+                content.innerHTML = parsedBoxOfficeData.map(movie => 
+                    `<div style="margin: 5px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <strong>#${movie.rank}</strong> ${movie.title} - ${movie.earnings}
+                    </div>`
+                ).join('');
+                preview.style.display = 'block';
             } else {
-                form.style.display = 'none';
+                alert('Could not parse any movie data. Try a different format or use manual edit.');
             }
         }
 
-        function saveQuickUpdate() {
+        function applyParsedData() {
+            if (parsedBoxOfficeData.length === 0) {
+                alert('No data to apply!');
+                return;
+            }
+            
+            updateBoxOfficeData(parsedBoxOfficeData);
+            
+            // Hide forms
+            document.getElementById('smart-update-form').style.display = 'none';
+            
+            alert(`Updated ${parsedBoxOfficeData.length} movies! All scores recalculated.`);
+            
+            // Refresh displays
+            if (currentUser) {
+                updateLeaderboard();
+                updateBoxOfficeStandings();
+            }
+        }
+
+        function showQuickEdit() {
+            document.getElementById('quick-edit-form').style.display = 'block';
+            document.getElementById('parsed-preview').style.display = 'none';
+            
+            const grid = document.getElementById('quick-edit-grid');
+            grid.innerHTML = '';
+            
+            boxOfficeStandings.forEach((movie, index) => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">#${index + 1}</label>
+                    <input type="text" id="edit-title-${index}" value="${movie.title}" style="width: 100%; margin-bottom: 5px;" placeholder="Movie title">
+                    <input type="text" id="edit-earnings-${index}" value="${movie.earnings}" style="width: 100%;" placeholder="Earnings">
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function saveQuickEdit() {
             const newStandings = [];
             
-            for (let i = 1; i <= 10; i++) {
-                const titleInput = document.getElementById(`q${i}-title`);
-                const earningsInput = document.getElementById(`q${i}-earnings`);
+            for (let i = 0; i < 10; i++) {
+                const titleInput = document.getElementById(`edit-title-${i}`);
+                const earningsInput = document.getElementById(`edit-earnings-${i}`);
                 
-                if (titleInput && earningsInput && titleInput.value.trim()) {
+                if (titleInput && titleInput.value.trim()) {
                     newStandings.push({
-                        rank: i,
+                        rank: i + 1,
                         title: titleInput.value.trim(),
-                        earnings: earningsInput.value.trim() || 'TBD',
-                        released: !earningsInput.value.toLowerCase().includes('release') && 
-                                 !earningsInput.value.toLowerCase().includes('tbd') &&
-                                 earningsInput.value.trim() !== ''
+                        earnings: earningsInput ? earningsInput.value.trim() || 'TBD' : 'TBD',
+                        released: earningsInput && !earningsInput.value.toLowerCase().includes('tbd') && earningsInput.value.trim() !== ''
                     });
                 }
             }
@@ -1366,16 +1427,12 @@
                 return;
             }
             
-            // Add timestamp for tracking
-            const now = new Date();
-            console.log(`Box office updated by admin at ${now.toLocaleString()}`);
-            
             updateBoxOfficeData(newStandings);
             
             // Hide the form
-            document.getElementById('quick-update-form').style.display = 'none';
+            document.getElementById('smart-update-form').style.display = 'none';
             
-            alert(`Box office updated! ${newStandings.length} movies ranked. All player scores have been recalculated.`);
+            alert(`Updated ${newStandings.length} movies! All scores recalculated.`);
             
             // Refresh displays
             if (currentUser) {
