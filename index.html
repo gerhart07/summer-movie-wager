@@ -494,8 +494,72 @@
             'Freakier Friday': 1226578
         };
 
+        // Box Office Mojo scraping (alternative to TMDB)
+        async function fetchBoxOfficeMojoData() {
+            console.log('Fetching Box Office Mojo data...');
+            
+            try {
+                // We'll use a CORS proxy to access Box Office Mojo
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const targetUrl = 'https://www.boxofficemojo.com/weekend/';
+                
+                console.log('Attempting to fetch from Box Office Mojo...');
+                const response = await fetch(proxyUrl + targetUrl, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const html = await response.text();
+                console.log('Got HTML response, parsing...');
+                
+                // Parse the HTML to extract box office data
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Find the weekend chart table
+                const rows = doc.querySelectorAll('table tr');
+                const boxOfficeData = [];
+                
+                for (let i = 1; i < Math.min(rows.length, 11); i++) { // Skip header, get top 10
+                    const cells = rows[i].querySelectorAll('td');
+                    if (cells.length >= 3) {
+                        const rank = i;
+                        const title = cells[1]?.textContent?.trim() || `Movie ${i}`;
+                        const earnings = cells[2]?.textContent?.trim() || '$0';
+                        
+                        boxOfficeData.push({
+                            rank: rank,
+                            title: title,
+                            earnings: earnings,
+                            released: true
+                        });
+                    }
+                }
+                
+                console.log('Parsed box office data:', boxOfficeData);
+                
+                if (boxOfficeData.length > 0) {
+                    updateBoxOfficeData(boxOfficeData);
+                    return true;
+                } else {
+                    throw new Error('No box office data found');
+                }
+                
+            } catch (error) {
+                console.error('Box Office Mojo scraping failed:', error);
+                console.log('Falling back to TMDB data...');
+                return await fetchLiveBoxOfficeData();
+            }
+        }
+
+        // Enhanced live data fetching with Box Office Mojo priority
         async function fetchLiveBoxOfficeData() {
-            console.log('Fetching live box office data...');
+            console.log('Fetching live box office data from TMDB...');
             
             try {
                 const movieData = [];
@@ -512,7 +576,6 @@
                         }
                         
                         const data = await response.json();
-                        console.log(`${movieTitle} data:`, data);
                         
                         // Only include movies with revenue data
                         if (data.revenue && data.revenue > 0) {
@@ -553,14 +616,14 @@
                     released: movie.released
                 }));
                 
-                console.log('New standings:', newStandings);
+                console.log('TMDB standings:', newStandings);
                 
                 // Update the app with new data
                 updateBoxOfficeData(newStandings);
                 return true;
                 
             } catch (error) {
-                console.error('Error fetching live data:', error);
+                console.error('Error fetching TMDB data:', error);
                 return false;
             }
         }
@@ -578,13 +641,17 @@
         async function enableAutoUpdates() {
             autoUpdateEnabled = true;
             
-            // Try to fetch live data immediately
-            const success = await fetchLiveBoxOfficeData();
+            // Try Box Office Mojo first, fallback to TMDB
+            console.log('Enabling auto-updates with Box Office Mojo priority...');
+            const success = await fetchBoxOfficeMojoData();
             
             if (success) {
                 // Set up automatic updates every 6 hours
-                setInterval(fetchLiveBoxOfficeData, 6 * 60 * 60 * 1000);
-                alert('Live data updates enabled! Box office numbers will refresh every 6 hours.');
+                setInterval(async () => {
+                    console.log('Running scheduled update...');
+                    await fetchBoxOfficeMojoData();
+                }, 6 * 60 * 60 * 1000);
+                alert('Live data updates enabled! Box office numbers will refresh every 6 hours using Box Office Mojo data.');
             } else {
                 alert('Could not enable live updates. Check console for details.');
             }
