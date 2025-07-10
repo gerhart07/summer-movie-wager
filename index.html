@@ -410,10 +410,27 @@
             <div id="leaderboard-tab" class="hidden">
                 <div class="leaderboard">
                     <div class="leaderboard-header">
-                        <h2>🏆 Current Rankings</h2>
+                        <h2>🏆 Player Rankings</h2>
+                        <p style="margin-top: 10px; opacity: 0.9;">Updated after each box office change</p>
                     </div>
                     <div id="leaderboard-content">
                         <!-- Leaderboard will be populated here -->
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; background: #f8f9fa; border-radius: 10px; padding: 20px;">
+                    <h3 style="color: #333; margin-bottom: 15px;">📊 Scoring Breakdown</h3>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h4 style="color: #ff6b6b; margin-bottom: 10px;">How Points Are Earned:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 14px;">
+                            <div>🎯 <strong>Exact match:</strong> 15 points</div>
+                            <div>📍 <strong>1 spot off:</strong> 10 points</div>
+                            <div>📊 <strong>2-3 spots off:</strong> 5 points</div>
+                            <div>🐎 <strong>Dark horse in top 10:</strong> 5 points</div>
+                        </div>
+                    </div>
+                    <div id="detailed-breakdown">
+                        <!-- Detailed breakdown will be populated here -->
                     </div>
                 </div>
             </div>
@@ -422,11 +439,21 @@
             <div id="standings-tab" class="hidden">
                 <div class="box-office-standings">
                     <div class="standings-header">
-                        <h2>📈 Current Box Office Top 10</h2>
+                        <h2>📈 Summer 2025 Box Office Tracker</h2>
                         <p style="margin-top: 10px; opacity: 0.9;">Last updated: <span id="last-updated"></span></p>
+                        <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="showAllMovies()" id="show-all-btn" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">Show All Movies</button>
+                            <button onclick="showTop10Only()" id="show-top10-btn" style="background: rgba(255,255,255,0.4); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">Top 10 Only</button>
+                        </div>
                     </div>
                     <div id="standings-content">
                         <!-- Box office standings will be populated here -->
+                    </div>
+                    <div id="unreleased-movies" style="margin-top: 20px; background: #f8f9fa; border-radius: 10px; padding: 15px;">
+                        <h4 style="color: #666; margin-bottom: 10px;">🎬 Upcoming Releases</h4>
+                        <div id="upcoming-list">
+                            <!-- Upcoming movies will be populated here -->
+                        </div>
                     </div>
                 </div>
             </div>
