@@ -440,20 +440,10 @@
                 <div class="box-office-standings">
                     <div class="standings-header">
                         <h2>📈 Summer 2025 Box Office Tracker</h2>
-                        <p style="margin-top: 10px; opacity: 0.9;">Last updated: <span id="last-updated"></span></p>
-                        <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                            <button onclick="showAllMovies()" id="show-all-btn" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">Show All Movies</button>
-                            <button onclick="showTop10Only()" id="show-top10-btn" style="background: rgba(255,255,255,0.4); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px;">Top 10 Only</button>
-                        </div>
+                        <p style="margin-top: 10px; opacity: 0.9;">All movies in our wager - Last updated: <span id="last-updated"></span></p>
                     </div>
                     <div id="standings-content">
                         <!-- Box office standings will be populated here -->
-                    </div>
-                    <div id="unreleased-movies" style="margin-top: 20px; background: #f8f9fa; border-radius: 10px; padding: 15px;">
-                        <h4 style="color: #666; margin-bottom: 10px;">🎬 Upcoming Releases</h4>
-                        <div id="upcoming-list">
-                            <!-- Upcoming movies will be populated here -->
-                        </div>
                     </div>
                 </div>
             </div>
@@ -811,7 +801,32 @@
         let selectedMovies = [];
         let darkHorses = [];
 
-        // Available movies
+        // All summer movies being tracked
+        const allSummerMovies = [
+            { title: 'Lilo & Stitch', earnings: '$400.0M', released: true },
+            { title: 'How to Train Your Dragon', earnings: '$224.0M', released: true },
+            { title: 'Mission: Impossible - The Final Reckoning', earnings: '$166.3M', released: true },
+            { title: 'Jurassic World Rebirth', earnings: '$147.3M', released: true },
+            { title: 'Thunderbolts', earnings: '$127.7M', released: true },
+            { title: 'F1', earnings: '$109.5M', released: true },
+            { title: 'Final Destination: Bloodlines', earnings: '$65.1M', released: true },
+            { title: '28 Years Later', earnings: '$50.1M', released: true },
+            { title: 'Elio', earnings: '$42.2M', released: true },
+            { title: 'Ballerina: From the World of John Wick', earnings: '$25.6M', released: true },
+            { title: 'M3GAN 2.0', earnings: '$10.2M', released: true },
+            { title: 'Karate Kid: Legends', earnings: '$8.5M', released: true },
+            { title: 'Superman', earnings: 'July 11 release', released: false },
+            { title: 'The Fantastic Four: First Steps', earnings: 'July 25 release', released: false },
+            { title: 'Smurfs', earnings: 'July 18 release', released: false },
+            { title: 'I Know What You Did Last Summer', earnings: 'July 18 release', released: false },
+            { title: 'The Bad Guys 2', earnings: 'August 1 release', released: false },
+            { title: 'The Naked Gun', earnings: 'August 1 release', released: false },
+            { title: 'Freakier Friday', earnings: 'August 8 release', released: false },
+            { title: 'Megan 2.0', earnings: '$10.2M', released: true }
+        ];
+
+
+        // Available movies for predictions
         const movies = [
             'Jurassic World Rebirth',
             'Lilo & Stitch', 
@@ -830,7 +845,8 @@
             'Freakier Friday',
             'Megan 2.0',
             'The Naked Gun',
-            'Smurfs'
+            'Smurfs',
+            'I Know What You Did Last Summer'
         ];
 
         function showTab(tabName) {
@@ -1184,6 +1200,9 @@
             boxOfficeStandings = newStandings;
             localStorage.setItem('box_office_standings', JSON.stringify(boxOfficeStandings));
             
+            // Update our complete tracking list with the new data
+            updateAllSummerMoviesWithNewData(newStandings);
+            
             // Recalculate all scores
             updateAllUserScores();
             
@@ -1194,6 +1213,25 @@
             }
             
             console.log('Box office data updated! All scores recalculated.');
+        }
+
+        function updateAllSummerMoviesWithNewData(newStandings) {
+            // Update our master list with new data
+            newStandings.forEach(standing => {
+                const movieIndex = allSummerMovies.findIndex(movie => 
+                    movie.title.toLowerCase().includes(standing.title.toLowerCase()) ||
+                    standing.title.toLowerCase().includes(movie.title.toLowerCase())
+                );
+                
+                if (movieIndex !== -1) {
+                    allSummerMovies[movieIndex] = {
+                        ...allSummerMovies[movieIndex],
+                        earnings: standing.earnings,
+                        released: standing.released !== false,
+                        rank: standing.rank
+                    };
+                }
+            });
         }
 
         function savePredictions() {
@@ -1280,33 +1318,159 @@
 
         function updateLeaderboard() {
             const content = document.getElementById('leaderboard-content');
+            const breakdown = document.getElementById('detailed-breakdown');
+            
+            // Store previous scores for comparison
+            const currentScores = {};
+            Object.entries(predictions).forEach(([username, data]) => {
+                currentScores[username] = data.points || 0;
+            });
+            
             const sortedUsers = Object.entries(predictions)
-                .map(([username, data]) => ({ username, points: data.points || 0 }))
+                .map(([username, data]) => ({ 
+                    username, 
+                    points: data.points || 0,
+                    previousPoints: previousScores[username] || 0,
+                    change: (data.points || 0) - (previousScores[username] || 0)
+                }))
                 .sort((a, b) => b.points - a.points);
             
             content.innerHTML = sortedUsers.map((user, index) => {
                 const rankClass = index === 0 ? 'first' : index === 1 ? 'second' : index === 2 ? 'third' : '';
                 const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
                 
+                let changeIndicator = '';
+                if (user.change > 0) {
+                    changeIndicator = `<span style="color: #28a745; font-size: 0.9em;">+${user.change} ↗️</span>`;
+                } else if (user.change < 0) {
+                    changeIndicator = `<span style="color: #dc3545; font-size: 0.9em;">${user.change} ↘️</span>`;
+                } else if (user.previousPoints > 0) {
+                    changeIndicator = `<span style="color: #6c757d; font-size: 0.9em;">0 ➡️</span>`;
+                }
+                
                 return `
                     <div class="player-row">
                         <div class="rank ${rankClass}">${rankEmoji} ${index + 1}</div>
-                        <div class="player-name">${user.username}</div>
+                        <div class="player-name">
+                            ${user.username}
+                            <div style="font-size: 0.8em; color: #666; margin-top: 2px;">${changeIndicator}</div>
+                        </div>
                         <div class="points">${user.points} pts</div>
                     </div>
                 `;
             }).join('');
+            
+            // Detailed breakdown for each player
+            breakdown.innerHTML = `
+                <h4 style="color: #333; margin-bottom: 15px;">🔍 Player Performance Details</h4>
+                ${sortedUsers.map(user => {
+                    const userPreds = predictions[user.username];
+                    if (!userPreds) return '';
+                    
+                    const breakdown = getDetailedBreakdown(userPreds);
+                    return `
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ff6b6b;">
+                            <h5 style="color: #333; margin-bottom: 10px;">${user.username} - ${user.points} points</h5>
+                            <div style="font-size: 14px; color: #666;">
+                                ${breakdown.exactMatches > 0 ? `🎯 ${breakdown.exactMatches} exact matches (${breakdown.exactMatches * 15} pts)<br>` : ''}
+                                ${breakdown.oneOff > 0 ? `📍 ${breakdown.oneOff} one-spot-off (${breakdown.oneOff * 10} pts)<br>` : ''}
+                                ${breakdown.twoThreeOff > 0 ? `📊 ${breakdown.twoThreeOff} 2-3 spots off (${breakdown.twoThreeOff * 5} pts)<br>` : ''}
+                                ${breakdown.darkHorses > 0 ? `🐎 ${breakdown.darkHorses} dark horses in top 10 (${breakdown.darkHorses * 5} pts)<br>` : ''}
+                                ${breakdown.total === 0 ? 'No points earned yet' : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            `;
+            
+            // Update previous scores for next comparison
+            previousScores = currentScores;
+            localStorage.setItem('previous_scores', JSON.stringify(previousScores));
+        }
+
+        function getDetailedBreakdown(userPredictions) {
+            if (!userPredictions) return { exactMatches: 0, oneOff: 0, twoThreeOff: 0, darkHorses: 0, total: 0 };
+            
+            let exactMatches = 0, oneOff = 0, twoThreeOff = 0, darkHorses = 0;
+            const top10 = userPredictions.top10 || [];
+            const userDarkHorses = userPredictions.darkHorses || [];
+            
+            // Check top 10 predictions
+            top10.forEach((predictedMovie, index) => {
+                if (!predictedMovie) return;
+                
+                const predictedRank = index + 1;
+                const actualRank = findActualRank(predictedMovie);
+                
+                if (actualRank === -1) return;
+                
+                const difference = Math.abs(predictedRank - actualRank);
+                
+                if (difference === 0) exactMatches++;
+                else if (difference === 1) oneOff++;
+                else if (difference === 2 || difference === 3) twoThreeOff++;
+            });
+            
+            // Check dark horses
+            userDarkHorses.forEach(darkHorse => {
+                const actualRank = findActualRank(darkHorse);
+                if (actualRank !== -1 && actualRank <= 10) {
+                    darkHorses++;
+                }
+            });
+            
+            return { 
+                exactMatches, 
+                oneOff, 
+                twoThreeOff, 
+                darkHorses, 
+                total: exactMatches * 15 + oneOff * 10 + twoThreeOff * 5 + darkHorses * 5 
+            };
         }
 
         function updateBoxOfficeStandings() {
             const content = document.getElementById('standings-content');
-            content.innerHTML = boxOfficeStandings.map(movie => `
-                <div class="movie-standing">
-                    <div class="movie-rank">#${movie.rank}</div>
-                    <div class="movie-title">${movie.title}</div>
-                    <div class="movie-earnings">${movie.earnings}</div>
-                </div>
-            `).join('');
+            
+            // Create a sorted list from our complete movie tracking
+            const sortedMovies = [...allSummerMovies].sort((a, b) => {
+                // Released movies first, sorted by earnings (extract number from earnings string)
+                if (a.released && b.released) {
+                    const aEarnings = parseFloat(a.earnings.replace(/[^0-9.]/g, '')) || 0;
+                    const bEarnings = parseFloat(b.earnings.replace(/[^0-9.]/g, '')) || 0;
+                    return bEarnings - aEarnings;
+                } else if (a.released && !b.released) {
+                    return -1; // Released movies come first
+                } else if (!a.released && b.released) {
+                    return 1;
+                } else {
+                    return 0; // Both unreleased, keep original order
+                }
+            });
+            
+            content.innerHTML = sortedMovies.map((movie, index) => {
+                const isTop10 = movie.released && index < 10;
+                const isReleased = movie.released;
+                
+                return `
+                    <div class="movie-standing" style="
+                        ${isTop10 ? 'background: linear-gradient(90deg, #fff2f2, #ffffff); border-left: 4px solid #ff6b6b;' : ''}
+                        ${!isReleased ? 'background: #f8f9fa; opacity: 0.7;' : ''}
+                        padding: 15px; margin-bottom: 2px;
+                    ">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="font-weight: bold; min-width: 40px;">#${index + 1}</div>
+                            ${isTop10 ? '<span style="background: #ff6b6b; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">TOP 10</span>' : ''}
+                            ${!isReleased ? '<span style="background: #6c757d; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px;">UPCOMING</span>' : ''}
+                        </div>
+                        <div style="flex: 1; margin-left: 15px; font-weight: ${isTop10 ? 'bold' : 'normal'};">
+                            ${movie.title}
+                        </div>
+                        <div style="font-weight: bold; color: ${isReleased ? '#28a745' : '#6c757d'}; min-width: 100px; text-align: right;">
+                            ${movie.earnings}
+                        </div>
+                    </div>
+                `;
+            }).join('');
             
             // Update last updated time
             const lastUpdated = document.getElementById('last-updated');
