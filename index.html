@@ -509,13 +509,12 @@
                 </div>
                 
                 <div style="background: white; border-radius: 10px; padding: 20px;">
-                    <h3>📝 Advanced Manual Updates</h3>
-                    <p>For fine-tuned control over individual movies</p>
-                    <button onclick="loadAdminPanel()" style="background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-bottom: 15px;">Show Advanced Editor</button>
-                    <div id="admin-rankings" style="display: none;">
-                        <!-- Admin form will be populated here -->
-                    </div>
-                    <button onclick="saveBoxOfficeUpdate()" id="advanced-save-btn" style="margin-top: 20px; display: none;">Update Rankings & Recalculate Scores</button>
+                    <h3>📝 Need Manual Updates?</h3>
+                    <p>Use the Smart Update feature above for the easiest experience!</p>
+                    <p style="color: #666; font-size: 14px; margin-top: 10px;">
+                        The old manual dropdown system has been replaced with the much easier Smart Update copy/paste method. 
+                        Just paste box office data above and it will automatically parse and update everything.
+                    </p>
                 </div>
             </div>
         </div>
@@ -780,24 +779,11 @@
             console.log('App initialization complete');
         });
         
-        // FIXED: Initialize with fallback data, but fetch live data immediately
-        let boxOfficeStandings = JSON.parse(localStorage.getItem('box_office_standings') || JSON.stringify([
-            { rank: 1, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 2, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 3, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 4, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 5, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 6, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 7, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 8, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 9, title: 'Loading...', earnings: 'Fetching live data...', released: true },
-            { rank: 10, title: 'Loading...', earnings: 'Fetching live data...', released: true }
-        ]));
-
         // App state
         let currentUser = null;
         let users = JSON.parse(localStorage.getItem('wager_users') || '{}');
         let predictions = JSON.parse(localStorage.getItem('wager_predictions') || '{}');
+        let previousScores = JSON.parse(localStorage.getItem('previous_scores') || '{}');
         let selectedMovies = [];
         let darkHorses = [];
 
@@ -824,7 +810,6 @@
             { title: 'Freakier Friday', earnings: 'August 8 release', released: false },
             { title: 'Megan 2.0', earnings: '$10.2M', released: true }
         ];
-
 
         // Available movies for predictions
         const movies = [
@@ -1163,18 +1148,34 @@
             return totalPoints;
         }
         
-        // FIXED: Better movie matching logic
         function findActualRank(movieTitle) {
-            // Find the current rank of a movie in box office standings
-            const standing = boxOfficeStandings.find(s => {
-                const standingTitle = s.title.toLowerCase().replace(/[^a-z0-9]/g, '');
-                const predictedTitle = movieTitle.toLowerCase().replace(/[^a-z0-9]/g, '');
+            // Find the current rank of a movie in our updated movie list
+            const movie = allSummerMovies.find(m => {
+                const movieTitleClean = m.title.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const predictedTitleClean = movieTitle.toLowerCase().replace(/[^a-z0-9]/g, '');
                 
-                return standingTitle.includes(predictedTitle) || 
-                       predictedTitle.includes(standingTitle) ||
-                       standingTitle === predictedTitle;
+                return movieTitleClean.includes(predictedTitleClean) || 
+                       predictedTitleClean.includes(movieTitleClean) ||
+                       movieTitleClean === predictedTitleClean;
             });
-            return standing ? standing.rank : -1;
+            
+            if (!movie || !movie.released) return -1;
+            
+            // Calculate rank based on earnings among released movies
+            const releasedMovies = allSummerMovies
+                .filter(m => m.released)
+                .sort((a, b) => {
+                    const aEarnings = parseFloat(a.earnings.replace(/[^0-9.]/g, '')) || 0;
+                    const bEarnings = parseFloat(b.earnings.replace(/[^0-9.]/g, '')) || 0;
+                    return bEarnings - aEarnings;
+                });
+            
+            const rank = releasedMovies.findIndex(m => 
+                m.title.toLowerCase().replace(/[^a-z0-9]/g, '') === 
+                movie.title.toLowerCase().replace(/[^a-z0-9]/g, '')
+            );
+            
+            return rank !== -1 ? rank + 1 : -1;
         }
         
         function updateAllUserScores() {
@@ -1196,10 +1197,6 @@
         }
         
         function updateBoxOfficeData(newStandings) {
-            // This function would be called when new box office data comes in
-            boxOfficeStandings = newStandings;
-            localStorage.setItem('box_office_standings', JSON.stringify(boxOfficeStandings));
-            
             // Update our complete tracking list with the new data
             updateAllSummerMoviesWithNewData(newStandings);
             
@@ -1454,287 +1451,4 @@
                 return `
                     <div class="movie-standing" style="
                         ${isTop10 ? 'background: linear-gradient(90deg, #fff2f2, #ffffff); border-left: 4px solid #ff6b6b;' : ''}
-                        ${!isReleased ? 'background: #f8f9fa; opacity: 0.7;' : ''}
-                        padding: 15px; margin-bottom: 2px;
-                    ">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <div style="font-weight: bold; min-width: 40px;">#${index + 1}</div>
-                            ${isTop10 ? '<span style="background: #ff6b6b; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">TOP 10</span>' : ''}
-                            ${!isReleased ? '<span style="background: #6c757d; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px;">UPCOMING</span>' : ''}
-                        </div>
-                        <div style="flex: 1; margin-left: 15px; font-weight: ${isTop10 ? 'bold' : 'normal'};">
-                            ${movie.title}
-                        </div>
-                        <div style="font-weight: bold; color: ${isReleased ? '#28a745' : '#6c757d'}; min-width: 100px; text-align: right;">
-                            ${movie.earnings}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            // Update last updated time
-            const lastUpdated = document.getElementById('last-updated');
-            if (lastUpdated) {
-                lastUpdated.textContent = new Date().toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                });
-            }
-        }
-        
-        let parsedBoxOfficeData = [];
-
-        function loadSmartUpdate() {
-            const form = document.getElementById('smart-update-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-            
-            // Hide other forms
-            document.getElementById('quick-edit-form').style.display = 'none';
-            document.getElementById('parsed-preview').style.display = 'none';
-        }
-
-        function parseBoxOfficeData() {
-            const pasteArea = document.getElementById('box-office-paste');
-            const text = pasteArea.value.trim();
-            
-            if (!text) {
-                alert('Please paste some box office data first!');
-                return;
-            }
-            
-            const lines = text.split('\n').filter(line => line.trim());
-            parsedBoxOfficeData = [];
-            
-            lines.forEach((line, index) => {
-                if (index >= 10) return; // Only top 10
-                
-                // Try to extract movie title and earnings from various formats
-                let rank = index + 1;
-                let title = '';
-                let earnings = '';
-                
-                // Remove common prefixes (1., #1, 1), etc.)
-                let cleanLine = line.replace(/^\s*[\d#]+[\.\)\-\s]*/, '').trim();
-                
-                // Look for dollar amounts
-                const dollarMatch = cleanLine.match(/\$[\d,\.]+[MBK]?/i);
-                if (dollarMatch) {
-                    earnings = dollarMatch[0];
-                    title = cleanLine.replace(dollarMatch[0], '').replace(/\s*[-–—]\s*$/, '').trim();
-                } else {
-                    // If no dollar amount, treat whole thing as title
-                    title = cleanLine;
-                    earnings = 'TBD';
-                }
-                
-                // Clean up title (remove extra characters)
-                title = title.replace(/[–—-]\s*$/, '').trim();
-                
-                if (title) {
-                    parsedBoxOfficeData.push({
-                        rank: rank,
-                        title: title,
-                        earnings: earnings,
-                        released: earnings !== 'TBD' && earnings !== ''
-                    });
-                }
-            });
-            
-            // Show preview
-            const preview = document.getElementById('parsed-preview');
-            const content = document.getElementById('parsed-content');
-            
-            if (parsedBoxOfficeData.length > 0) {
-                content.innerHTML = parsedBoxOfficeData.map(movie => 
-                    `<div style="margin: 5px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-                        <strong>#${movie.rank}</strong> ${movie.title} - ${movie.earnings}
-                    </div>`
-                ).join('');
-                preview.style.display = 'block';
-            } else {
-                alert('Could not parse any movie data. Try a different format or use manual edit.');
-            }
-        }
-
-        function applyParsedData() {
-            if (parsedBoxOfficeData.length === 0) {
-                alert('No data to apply!');
-                return;
-            }
-            
-            updateBoxOfficeData(parsedBoxOfficeData);
-            
-            // Hide forms
-            document.getElementById('smart-update-form').style.display = 'none';
-            
-            alert(`Updated ${parsedBoxOfficeData.length} movies! All scores recalculated.`);
-            
-            // Refresh displays
-            if (currentUser) {
-                updateLeaderboard();
-                updateBoxOfficeStandings();
-            }
-        }
-
-        function showQuickEdit() {
-            document.getElementById('quick-edit-form').style.display = 'block';
-            document.getElementById('parsed-preview').style.display = 'none';
-            
-            const grid = document.getElementById('quick-edit-grid');
-            grid.innerHTML = '';
-            
-            boxOfficeStandings.forEach((movie, index) => {
-                const div = document.createElement('div');
-                div.innerHTML = `
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">#${index + 1}</label>
-                    <input type="text" id="edit-title-${index}" value="${movie.title}" style="width: 100%; margin-bottom: 5px;" placeholder="Movie title">
-                    <input type="text" id="edit-earnings-${index}" value="${movie.earnings}" style="width: 100%;" placeholder="Earnings">
-                `;
-                grid.appendChild(div);
-            });
-        }
-
-        function saveQuickEdit() {
-            const newStandings = [];
-            
-            for (let i = 0; i < 10; i++) {
-                const titleInput = document.getElementById(`edit-title-${i}`);
-                const earningsInput = document.getElementById(`edit-earnings-${i}`);
-                
-                if (titleInput && titleInput.value.trim()) {
-                    newStandings.push({
-                        rank: i + 1,
-                        title: titleInput.value.trim(),
-                        earnings: earningsInput ? earningsInput.value.trim() || 'TBD' : 'TBD',
-                        released: earningsInput && !earningsInput.value.toLowerCase().includes('tbd') && earningsInput.value.trim() !== ''
-                    });
-                }
-            }
-            
-            if (newStandings.length === 0) {
-                alert('Please enter at least one movie!');
-                return;
-            }
-            
-            updateBoxOfficeData(newStandings);
-            
-            // Hide the form
-            document.getElementById('smart-update-form').style.display = 'none';
-            
-            alert(`Updated ${newStandings.length} movies! All scores recalculated.`);
-            
-            // Refresh displays
-            if (currentUser) {
-                updateLeaderboard();
-                updateBoxOfficeStandings();
-            }
-        }
-        
-        function loadAdminPanel() {
-            const adminRankings = document.getElementById('admin-rankings');
-            const saveBtn = document.getElementById('advanced-save-btn');
-            
-            if (adminRankings.style.display === 'none') {
-                adminRankings.style.display = 'block';
-                saveBtn.style.display = 'block';
-                
-                adminRankings.innerHTML = '';
-                
-                boxOfficeStandings.forEach((movie, index) => {
-                    const div = document.createElement('div');
-                    div.style.cssText = 'margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;';
-                    div.innerHTML = `
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">#${index + 1} Movie:</label>
-                        <select id="movie-${index}" style="width: 100%; margin-bottom: 10px;">
-                            ${movies.map(m => `<option value="${m}" ${m === movie.title ? 'selected' : ''}>${m}</option>`).join('')}
-                            <option value="${movie.title}" ${!movies.includes(movie.title) ? 'selected' : ''}>${movie.title}</option>
-                        </select>
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Earnings:</label>
-                        <input type="text" id="earnings-${index}" value="${movie.earnings}" style="width: 100%;" placeholder="e.g., $150.2M or 'Not yet released'">
-                    `;
-                    adminRankings.appendChild(div);
-                });
-            } else {
-                adminRankings.style.display = 'none';
-                saveBtn.style.display = 'none';
-            }
-        }
-        
-        function saveBoxOfficeUpdate() {
-            const newStandings = [];
-            
-            for (let i = 0; i < 10; i++) {
-                const movieSelect = document.getElementById(`movie-${i}`);
-                const earningsInput = document.getElementById(`earnings-${i}`);
-                
-                if (movieSelect && earningsInput) {
-                    newStandings.push({
-                        rank: i + 1,
-                        title: movieSelect.value,
-                        earnings: earningsInput.value,
-                        released: !earningsInput.value.toLowerCase().includes('release') && !earningsInput.value.toLowerCase().includes('july') && !earningsInput.value.toLowerCase().includes('august')
-                    });
-                }
-            }
-            
-            updateBoxOfficeData(newStandings);
-            alert('Box office data updated! All player scores have been recalculated.');
-            
-            // Refresh the leaderboard to show new scores
-            updateLeaderboard();
-        }
-
-        // FIXED: Initialize the app with realistic demo data
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('App initializing...');
-            
-            // Load existing data
-            users = JSON.parse(localStorage.getItem('wager_users') || '{}');
-            predictions = JSON.parse(localStorage.getItem('wager_predictions') || '{}');
-            
-            console.log('Loaded users:', Object.keys(users));
-            console.log('Loaded predictions:', Object.keys(predictions));
-            
-            // Add demo data if none exists
-            if (Object.keys(users).length === 0) {
-                console.log('Creating demo data...');
-                users = {
-                    'Phil': { email: 'phil@example.com', password: 'password', points: 0 },
-                    'Garrett': { email: 'garrett@example.com', password: 'password', points: 0 },
-                    'Ryan': { email: 'ryan@example.com', password: 'password', points: 0 }
-                };
-                localStorage.setItem('wager_users', JSON.stringify(users));
-                
-                // FIXED: More realistic demo predictions
-                predictions = {
-                    'Phil': { 
-                        top10: ['Lilo & Stitch', 'How to Train Your Dragon', 'Thunderbolts', 'Superman', 'The Fantastic Four: First Steps', 'Mission: Impossible - The Final Reckoning', 'Elio', 'Jurassic World Rebirth', 'Final Destination: Bloodlines', 'F1'],
-                        darkHorses: ['Karate Kid: Legends', 'Megan 2.0', 'Ballerina: From the World of John Wick'],
-                        points: 0
-                    },
-                    'Garrett': {
-                        top10: ['How to Train Your Dragon', 'Lilo & Stitch', 'Superman', 'Thunderbolts', 'Mission: Impossible - The Final Reckoning', 'F1', 'Jurassic World Rebirth', 'Elio', 'The Fantastic Four: First Steps', 'Final Destination: Bloodlines'],
-                        darkHorses: ['28 Years Later', 'Karate Kid: Legends', 'Freakier Friday'],
-                        points: 0
-                    },
-                    'Ryan': {
-                        top10: ['Superman', 'Lilo & Stitch', 'The Fantastic Four: First Steps', 'Thunderbolts', 'How to Train Your Dragon', 'Mission: Impossible - The Final Reckoning', 'Jurassic World Rebirth', 'Elio', 'F1', 'Final Destination: Bloodlines'],
-                        darkHorses: ['28 Years Later', 'Megan 2.0', 'The Bad Guys 2'],
-                        points: 0
-                    }
-                };
-                localStorage.setItem('wager_predictions', JSON.stringify(predictions));
-                
-                // Calculate initial scores based on current box office standings
-                updateAllUserScores();
-                console.log('Demo data created and scores calculated');
-                console.log('Final scores:', predictions);
-            }
-            
-            console.log('App initialization complete');
-        });
-    </script>
-</body>
-</html>
+                        ${!isR
